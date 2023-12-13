@@ -73,8 +73,8 @@
             }
             if (element.className) {
                 if (options.classAdd === true) {
-                    element.classList.forEach((className) => {
-                        js += `${varName}.classList.add('${element.className}');\n`;
+                    element.classList.forEach((item) => {
+                        js += `${varName}.classList.add('${item}');\n`;
                     });
                 } else {
                     js += `${varName}.className = '${element.className}';\n`;
