@@ -29,13 +29,13 @@
         const defaultOptions = {
             useId: true,
             classAdd: true,
+            templateStrings: true
         }
         if (!options) options = defaultOptions;
-        const stack = [];
         let jsCode = '';
 
         const getVName = (tag) => {
-            var count = 1;
+            let count = 1;
             while (count < 1000) {
                 if (!varSet.has(tag + count)) {
                     varSet.add(tag + count);
@@ -49,14 +49,19 @@
         }
 
         const appendChildNodes = (element, vName) => {
-            element.childNodes.forEach((childNode, index) => {
+            element.childNodes.forEach((childNode) => {
                 if (childNode.nodeType === NodeType.TEXT_NODE) {
                     let nodeText = `${childNode.textContent.trim()}`;
                     if (!nodeText) return;
-                    jsCode += `textNode = document.createTextNode(\`${nodeText}\`);\n`;
+                    if (options.templateStrings) {
+                        jsCode += `textNode = document.createTextNode(\`${nodeText}\`);\n`;
+                    } else {
+                        nodeText = nodeText.replace(/"/g, '\\"');
+                        jsCode += 'textNode = document.createTextNode("' + nodeText + '");\n';
+                    }
                     jsCode += `${vName}.appendChild(textNode);\n`;
                 } else {
-                    const childTag = defaultOptions.useId && !!childNode.id ? childNode.id : `${childNode.tagName.toLowerCase()}`;
+                    const childTag = options.useId && !!childNode.id ? childNode.id : `${childNode.tagName.toLowerCase()}`;
                     const cvName = getVName(childTag);
                     jsCode += createJSForElement(childNode, cvName);
                     jsCode += `${vName}.appendChild(${cvName});\n`;
