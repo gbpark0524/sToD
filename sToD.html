@@ -8,9 +8,22 @@
 </head>
 <body>
 <div class="container">
-    <textarea id="inputText" class="area_text" placeholder="여기에 텍스트를 입력하세요..."></textarea>
-    <button id="convertButton">변환</button>
-    <div id="result" class="area_text"></div>
+    <div class="wrap_main">
+        <textarea id="inputText" class="area_text" placeholder="여기에 텍스트를 입력하세요..."></textarea>
+        <button id="convertButton">변환</button>
+        <div id="result" class="area_text"></div>
+    </div>
+    <div class="wrap_option">
+        <label class="option_label">
+            <input type="checkbox" id="useIdCheckbox" checked> Use ID
+        </label>
+        <label class="option_label">
+            <input type="checkbox" id="classAddCheckbox"> Class Add
+        </label>
+        <label class="option_label">
+            <input type="checkbox" id="templateStringsCheckbox" checked> Template Strings
+        </label>
+    </div>
 </div>
 
 <script src="sToD.js"></script>
