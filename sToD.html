@@ -27,5 +27,15 @@
 </div>
 
 <script src="sToD.js"></script>
+<script>
+    const conSD = new SToD();
+    document.querySelector("#convertButton").addEventListener("click", function () {
+        try {
+            document.querySelector("#result").innerText = conSD.convert(document.querySelector("#inputText").value);
+        } catch (e) {
+            document.querySelector("#result").innerText = e.stack;
+        }
+    });
+</script>
 </body>
 </html>

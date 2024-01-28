@@ -20,7 +20,22 @@
         NOTATION_NODE: 12
     });
 
-    function convertHTMLToJS(htmlString, options) {
+    const Type = Object.freeze({
+        OBJ: 'object'
+    });
+
+    const ConSD = function (option) {
+        const _defaultOption = Object.freeze({
+            useId: true,
+            classAdd: true,
+            templateStrings: true
+        });
+
+        this._option = JSON.parse(JSON.stringify(_defaultOption));
+        if (!!option && typeof option === Type.OBJ) Object.assign(this._option, option);
+    }
+
+    ConSD.prototype.convert = function(htmlString, options) {
         const varSet = new Set();
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, 'text/html');
@@ -103,13 +118,5 @@
         return jsCode;
     }
 
-    (function () {
-        document.querySelector("#convertButton").addEventListener("click", function () {
-            try {
-                document.querySelector("#result").innerText = convertHTMLToJS(document.querySelector("#inputText").value);
-            } catch (e) {
-                document.querySelector("#result").innerText = e.stack;
-            }
-        });
-    }());
+    return ConSD;
 })));
