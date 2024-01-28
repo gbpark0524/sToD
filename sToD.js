@@ -108,6 +108,10 @@
         };
 
         elements.forEach((element) => {
+            if (element.nodeType === NodeType.TEXT_NODE) {
+                jsCode = 'dom parse error';
+                return false;
+            }
             const vName = getVName(defaultOptions.useId && !!element.id ? element.id : `${element.tagName.toLowerCase()}`);
             jsCode += createJSForElement(element, vName);
             if (!vName) return;
