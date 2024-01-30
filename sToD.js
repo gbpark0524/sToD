@@ -40,12 +40,8 @@
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, 'text/html');
         const elements = doc.body.childNodes;
-        const defaultOptions = {
-            useId: true,
-            classAdd: true,
-            templateStrings: true
-        }
-        if (!options) options = defaultOptions;
+
+        if (!options) options = this._option;
         let jsCode = '';
 
         const getVName = (tag) => {
@@ -101,9 +97,15 @@
                 element.removeAttribute('class');
             }
             let attributeNames = element.getAttributeNames();
-            attributeNames.forEach((attributeName) => {
-                js += `${varName}.setAttribute('${attributeName}', \`${element.getAttribute(attributeName)}\`);\n`;
-            });
+            if (options.templateStrings) {
+                attributeNames.forEach((attributeName) => {
+                    js += `${varName}.setAttribute('${attributeName}', \`${element.getAttribute(attributeName)}\`);\n`;
+                });
+            } else {
+                attributeNames.forEach((attributeName) => {
+                    js += `${varName}.setAttribute('${attributeName}', '${element.getAttribute(attributeName)}');\n`;
+                });
+            }
             return js;
         };
 
@@ -112,7 +114,7 @@
                 jsCode = 'dom parse error';
                 return false;
             }
-            const vName = getVName(defaultOptions.useId && !!element.id ? element.id : `${element.tagName.toLowerCase()}`);
+            const vName = getVName(options.useId && !!element.id ? element.id : `${element.tagName.toLowerCase()}`);
             jsCode += createJSForElement(element, vName);
             if (!vName) return;
 

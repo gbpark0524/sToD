@@ -15,22 +15,27 @@
     </div>
     <div class="wrap_option">
         <label class="option_label">
-            <input type="checkbox" id="useIdCheckbox" checked> Use ID
+            <input type="checkbox" id="useId" checked> Use ID
         </label>
         <label class="option_label">
-            <input type="checkbox" id="classAddCheckbox"> Class Add
+            <input type="checkbox" id="classAdd" checked> Class Add
         </label>
         <label class="option_label">
-            <input type="checkbox" id="templateStringsCheckbox" checked> Template Strings
+            <input type="checkbox" id="templateStrings" checked> Template Strings
         </label>
     </div>
 </div>
 
 <script src="sToD.js"></script>
 <script>
-    const conSD = new SToD();
     document.querySelector("#convertButton").addEventListener("click", function () {
         try {
+            const option = {};
+            const optionNodes = document.querySelectorAll('.option_label > input');
+            for (const optionNode of optionNodes) {
+                option[optionNode.id] = optionNode.checked;
+            }
+            const conSD = new SToD(option);
             document.querySelector("#result").innerText = conSD.convert(document.querySelector("#inputText").value);
         } catch (e) {
             document.querySelector("#result").innerText = e.stack;
