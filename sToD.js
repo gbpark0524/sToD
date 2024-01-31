@@ -45,6 +45,7 @@
         let jsCode = '';
 
         const getVName = (tag) => {
+            tag = convertToCamelCase(tag);
             let count = 1;
             while (count < 1000) {
                 if (!varSet.has(tag + count)) {
@@ -122,6 +123,13 @@
         });
 
         return jsCode;
+    }
+
+    const convertToCamelCase = function(inputString) {
+        // Remove special characters and capitalize the characters following each special character
+        return inputString.replace(/[-_:](.)/g, function(match, group1) {
+            return group1.toUpperCase();
+        });
     }
 
     return ConSD;
