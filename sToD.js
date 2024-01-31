@@ -24,6 +24,8 @@
         OBJ: 'object'
     });
 
+    let _lastText = "";
+
     const ConSD = function (option) {
         const _defaultOption = Object.freeze({
             useId: true,
@@ -122,7 +124,12 @@
             appendChildNodes(element, vName);
         });
 
+        _lastText = jsCode;
         return jsCode;
+    }
+
+    ConSD.prototype.clipboard = function () {
+        copyTextToClipboard(_lastText);
     }
 
     const convertToCamelCase = function(inputString) {
@@ -130,6 +137,16 @@
         return inputString.replace(/[-_:](.)/g, function(match, group1) {
             return group1.toUpperCase();
         });
+    }
+
+    const copyTextToClipboard = function (text) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                console.log("Text copied to clipboard:", text);
+            })
+            .catch((err) => {
+                console.error("Unable to copy text to clipboard:", err);
+            });
     }
 
     return ConSD;

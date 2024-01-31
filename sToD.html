@@ -37,6 +37,7 @@
             }
             const conSD = new SToD(option);
             document.querySelector("#result").innerText = conSD.convert(document.querySelector("#inputText").value);
+            conSD.clipboard();
         } catch (e) {
             document.querySelector("#result").innerText = e.stack;
         }
